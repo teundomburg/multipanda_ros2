@@ -3,8 +3,13 @@ mujoco_server:
     MujocoPlugins:
       names:
         - mujoco_ros2_control
+        - mujoco_scene_publisher
+
       mujoco_ros2_control:
         type: mujoco_ros2_control::MujocoRos2ControlPlugin
+
+      mujoco_scene_publisher:
+        type: mujoco_scene_publisher::MujocoScenePublisher
 
 controller_manager:
   ros__parameters:

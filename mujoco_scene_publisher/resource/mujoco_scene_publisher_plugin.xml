@@ -1,0 +1,8 @@
+<library path="mujoco_scene_publisher">
+  <class
+    name="mujoco_scene_publisher::MujocoScenePublisher"
+    type="mujoco_scene_publisher::MujocoScenePublisher"
+    base_class_type="mujoco_ros::MujocoPlugin">
+    <description>Publishes MuJoCo objects as scene_msgs/TrackedObjectArray</description>
+  </class>
+</library>
