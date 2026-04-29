@@ -203,37 +203,21 @@ def generate_launch_description():
         'sim_panda_ros_controllers.yaml',
     )
 
-    mujoco_ros_utils_plugin_dir = os.path.join(
-        os.path.expanduser('~'),
-        'interpretability_thesis',
-        'franka_ws',
-        'build',
-        'mujoco_ros_utils',
-        'plugin',
-    )
-
-    mujoco_install_dir = os.path.join(
-        os.path.expanduser('~'),
-        'interpretability_thesis',
-        'prereqs',
-        'mj_install',
-    )
-
     mujoco_ros2_node = GroupAction([
         SetEnvironmentVariable(
             name='MUJOCO_PLUGIN_PATH',
             value=[
-                mujoco_ros_utils_plugin_dir,
+                os.environ['MUJOCO_ROS_UTILS_PLUGIN_DIR'],
                 ':',
-                os.path.join(mujoco_install_dir, 'bin', 'mujoco_plugin'),
+                os.path.join(os.environ['MUJOCO_ROOT_DIR'], 'bin', 'mujoco_plugin'),
             ],
         ),
         SetEnvironmentVariable(
             name='LD_LIBRARY_PATH',
             value=[
-                mujoco_ros_utils_plugin_dir,
+                os.environ['MUJOCO_ROS_UTILS_PLUGIN_DIR'],
                 ':',
-                os.path.join(mujoco_install_dir, 'lib'),
+                os.path.join(os.environ['MUJOCO_ROOT_DIR'], 'lib'),
                 ':',
                 os.environ.get('LD_LIBRARY_PATH', ''),
             ],
@@ -241,9 +225,9 @@ def generate_launch_description():
         SetEnvironmentVariable(
             name='LD_PRELOAD',
             value=[
-                os.path.join(mujoco_ros_utils_plugin_dir, 'libMujocoRosUtils.so'),
+                os.path.join(os.environ['MUJOCO_ROS_UTILS_PLUGIN_DIR'], 'libMujocoRosUtils.so'),
                 ':',
-                os.path.join(mujoco_ros_utils_plugin_dir, 'libMujocoRosUtilsPlugin.so'),
+                os.path.join(os.environ['MUJOCO_ROS_UTILS_PLUGIN_DIR'], 'libMujocoRosUtilsPlugin.so'),
             ],
         ),
         IncludeLaunchDescription(
