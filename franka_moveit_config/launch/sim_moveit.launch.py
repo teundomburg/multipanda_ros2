@@ -203,6 +203,18 @@ def generate_launch_description():
         'sim_panda_ros_controllers.yaml',
     )
 
+    world_to_panda_link0 = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        name="world_to_panda_link0",
+        arguments=[
+            "0", "0", "0",
+            "0", "0", "1", "0",
+            "world",
+            "panda_link0",
+        ],
+    )
+
     mujoco_ros2_node = GroupAction([
         SetEnvironmentVariable(
             name='MUJOCO_PLUGIN_PATH',
@@ -306,7 +318,8 @@ def generate_launch_description():
          run_move_group_node,
          mujoco_ros2_node,
          mongodb_server_node,
-         joint_state_publisher
+         joint_state_publisher,
+         world_to_panda_link0
          ]
         + load_controllers
     )
