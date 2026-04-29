@@ -2,6 +2,3 @@
 	path = mujoco_ros_pkgs
 	url = https://github.com/tenfoldpaper/mujoco_ros_pkgs
 	branch = wip_ros_control_humble
-[submodule "MujocoRosUtils"]
-	path = MujocoRosUtils
-	url = git@github.com:isri-aist/MujocoRosUtils.git

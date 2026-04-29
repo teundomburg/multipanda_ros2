@@ -20,7 +20,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription,
-                            Shutdown)
+                            Shutdown, GroupAction, SetEnvironmentVariable)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource, FrontendLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
@@ -79,7 +79,7 @@ def generate_launch_description():
                         # and it's not worth doing just for a single boolean.
     
     if(load_gripper): # mujoco scene file must be manually adjusted since there's no way to pass parameters
-        scene_file = 'scene.xml'
+        scene_file = 'scene2.xml'
     else:
         scene_file = 'scene_ng.xml'
 
@@ -178,7 +178,7 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        output='log',
+        output='screen',
         arguments=['-d', rviz_full_config],
         parameters=[
             robot_description,
@@ -203,17 +203,62 @@ def generate_launch_description():
         'sim_panda_ros_controllers.yaml',
     )
 
-    # Mujoco ros2 server
-    mujoco_ros2_node = IncludeLaunchDescription(
-            FrontendLaunchDescriptionSource(franka_bringup_path + '/launch/sim/launch_mujoco_ros_server.launch'),
+    mujoco_ros_utils_plugin_dir = os.path.join(
+        os.path.expanduser('~'),
+        'interpretability_thesis',
+        'franka_ws',
+        'build',
+        'mujoco_ros_utils',
+        'plugin',
+    )
+
+    mujoco_install_dir = os.path.join(
+        os.path.expanduser('~'),
+        'interpretability_thesis',
+        'prereqs',
+        'mj_install',
+    )
+
+    mujoco_ros2_node = GroupAction([
+        SetEnvironmentVariable(
+            name='MUJOCO_PLUGIN_PATH',
+            value=[
+                mujoco_ros_utils_plugin_dir,
+                ':',
+                os.path.join(mujoco_install_dir, 'bin', 'mujoco_plugin'),
+            ],
+        ),
+        SetEnvironmentVariable(
+            name='LD_LIBRARY_PATH',
+            value=[
+                mujoco_ros_utils_plugin_dir,
+                ':',
+                os.path.join(mujoco_install_dir, 'lib'),
+                ':',
+                os.environ.get('LD_LIBRARY_PATH', ''),
+            ],
+        ),
+        SetEnvironmentVariable(
+            name='LD_PRELOAD',
+            value=[
+                os.path.join(mujoco_ros_utils_plugin_dir, 'libMujocoRosUtils.so'),
+                ':',
+                os.path.join(mujoco_ros_utils_plugin_dir, 'libMujocoRosUtilsPlugin.so'),
+            ],
+        ),
+        IncludeLaunchDescription(
+            FrontendLaunchDescriptionSource(
+                franka_bringup_path + '/launch/sim/launch_mujoco_ros_server.launch'
+            ),
             launch_arguments={
-                'use_sim_time': "true",
+                'use_sim_time': 'true',
                 'modelfile': xml_file,
-                'verbose': "true",
+                'verbose': 'true',
                 'ns': '',
-                'mujoco_plugin_config': ros2_controllers_path
+                'mujoco_plugin_config': ros2_controllers_path,
             }.items()
         )
+    ])
 
     # Load controllers
     load_controllers = []
