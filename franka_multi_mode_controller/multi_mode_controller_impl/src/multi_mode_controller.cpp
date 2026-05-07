@@ -376,7 +376,7 @@ std::unique_ptr<std::vector<MultiModeController::Controller>>
 
 // the const decorator was causing all that ugly errors?? 
 bool MultiModeController::setControllersCallback(const SetControllers::Request::SharedPtr req, 
-                                                       __attribute_maybe_unused__ const SetControllers::Response::SharedPtr res){
+                                                       const SetControllers::Response::SharedPtr res [[maybe_unused]]){
   std::vector<ControllerInfo> new_control;
   for (const auto& controller : req->controllers) {
     ControllerInfo info;
@@ -405,7 +405,7 @@ bool MultiModeController::setControllersCallback(const SetControllers::Request::
   return true;
 }
 
-bool MultiModeController::getControllersCallback(__attribute_maybe_unused__ GetControllers::Request::SharedPtr req, 
+bool MultiModeController::getControllersCallback(GetControllers::Request::SharedPtr req [[maybe_unused]], 
                                                        const GetControllers::Response::SharedPtr res){
   //Skeleton
   for (const auto& controller : active_control_set_) {

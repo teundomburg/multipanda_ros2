@@ -218,4 +218,6 @@ bool RobotSim::setModelIndices(){
   return true;
 }
 
+RobotSim::~RobotSim() = default;
+
 } // namespace franka_hardware

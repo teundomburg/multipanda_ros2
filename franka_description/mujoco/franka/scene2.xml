@@ -32,21 +32,21 @@
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
 
     <!-- Bottom cube: edge length 0.06 -->
-    <body name="cube1" pos="-0.5 0.0 0.03">
+    <body name="red_cube" pos="-0.5 0.0 0.03">
       <freejoint/>
       <geom type="box" size="0.03 0.03 0.03" material="red_box"
             mass="0.5" friction="1 0.005 0.0001"/>
     </body>
 
     <!-- Middle cube: edge length 0.04 -->
-    <body name="cube2" pos="-0.5 0.0 0.08">
+    <body name="green_cube" pos="-0.5 0.0 0.08">
       <freejoint/>
       <geom type="box" size="0.02 0.02 0.02" material="green_box"
             mass="0.3" friction="1 0.005 0.0001"/>
     </body>
 
     <!-- Top cube: edge length 0.02 -->
-    <body name="cube3" pos="-0.5 0.0 0.11">
+    <body name="blue_cube" pos="-0.5 0.0 0.11">
       <freejoint/>
       <geom type="box" size="0.01 0.01 0.01" material="blue_box"
             mass="0.1" friction="1 0.005 0.0001"/>
@@ -55,42 +55,42 @@
 
   <sensor>
     <plugin
-        name="cube1_pose_pub"
+        name="red_cube_pose_pub"
         plugin="MujocoRosUtils::PosePublisher"
         objtype="xbody"
-        objname="cube1">
+        objname="red_cube">
       <config key="frame_id" value="world"/>
-      <config key="pose_topic_name" value="/mujoco/cube1/pose"/>
-      <config key="vel_topic_name" value="/mujoco/cube1/vel"/>
+      <config key="pose_topic_name" value="/mujoco/red_cube/pose"/>
+      <config key="vel_topic_name" value="/mujoco/red_cube/vel"/>
       <config key="publish_rate" value="30"/>
       <config key="output_tf" value="true"/>
-      <config key="tf_child_frame_id" value="cube1"/>
+      <config key="tf_child_frame_id" value="red_cube"/>
     </plugin>
 
     <plugin
-        name="cube2_pose_pub"
+        name="green_cube_pose_pub"
         plugin="MujocoRosUtils::PosePublisher"
         objtype="xbody"
-        objname="cube2">
+        objname="green_cube">
       <config key="frame_id" value="world"/>
-      <config key="pose_topic_name" value="/mujoco/cube2/pose"/>
-      <config key="vel_topic_name" value="/mujoco/cube2/vel"/>
+      <config key="pose_topic_name" value="/mujoco/green_cube/pose"/>
+      <config key="vel_topic_name" value="/mujoco/green_cube/vel"/>
       <config key="publish_rate" value="30"/>
       <config key="output_tf" value="true"/>
-      <config key="tf_child_frame_id" value="cube2"/>
+      <config key="tf_child_frame_id" value="green_cube"/>
     </plugin>
 
     <plugin
-        name="cube3_pose_pub"
+        name="blue_cube_pose_pub"
         plugin="MujocoRosUtils::PosePublisher"
         objtype="xbody"
-        objname="cube3">
+        objname="blue_cube">
       <config key="frame_id" value="world"/>
-      <config key="pose_topic_name" value="/mujoco/cube3/pose"/>
-      <config key="vel_topic_name" value="/mujoco/cube3/vel"/>
+      <config key="pose_topic_name" value="/mujoco/blue_cube/pose"/>
+      <config key="vel_topic_name" value="/mujoco/blue_cube/vel"/>
       <config key="publish_rate" value="30"/>
       <config key="output_tf" value="true"/>
-      <config key="tf_child_frame_id" value="cube3"/>
+      <config key="tf_child_frame_id" value="blue_cube"/>
     </plugin>
   </sensor>
 
