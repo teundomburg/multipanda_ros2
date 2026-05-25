@@ -4,6 +4,7 @@
 
   <extension>
     <plugin plugin="MujocoRosUtils::PosePublisher"/>
+    <plugin plugin="MujocoRosUtils::ClockPublisher"/>
   </extension>  
 
   <statistic center="0.3 0 0.4" extent="1"/>
@@ -51,6 +52,12 @@
       <geom type="box" size="0.01 0.01 0.01" material="blue_box"
             mass="0.1" friction="1 0.005 0.0001"/>
     </body>
+
+    <plugin plugin="MujocoRosUtils::ClockPublisher">
+      <config key="topic_name" value="/clock"/>
+      <config key="publish_rate" value="100"/>
+      <config key="use_sim_time" value="true"/>
+    </plugin>
   </worldbody>
 
   <sensor>

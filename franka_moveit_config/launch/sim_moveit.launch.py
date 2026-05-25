@@ -167,6 +167,7 @@ def generate_launch_description():
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
+            {"use_sim_time": LaunchConfiguration("use_sim_time")}
         ],
     )
 
@@ -185,7 +186,14 @@ def generate_launch_description():
             robot_description_semantic,
             ompl_planning_pipeline_config,
             kinematics_yaml,
+            {"use_sim_time": LaunchConfiguration("use_sim_time")}
         ],
+    )
+
+    sim_time_arg = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="true",
+        description="Whether to use simulation time",
     )
 
     # Publish TF
@@ -194,7 +202,9 @@ def generate_launch_description():
         executable='robot_state_publisher',
         # name='robot_state_publisher',
         output='both',
-        parameters=[robot_description],
+        parameters=[robot_description,
+                    {"use_sim_time": LaunchConfiguration("use_sim_time")}
+                    ],
     )
 
     ros2_controllers_path = os.path.join(
@@ -293,7 +303,10 @@ def generate_launch_description():
             namespace= "",
             parameters=[
                 {'source_list': jsp_source_list,
-                 'rate': 30}],
+                 'rate': 30,
+                 'use_sim_time': LaunchConfiguration("use_sim_time"),
+                 }
+            ],
     )
 
     
@@ -313,6 +326,7 @@ def generate_launch_description():
         [arm_id_arg,
          initial_position_arg,
          db_arg,
+         sim_time_arg,
          rviz_node,
          robot_state_publisher,
          run_move_group_node,
