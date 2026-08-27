@@ -260,6 +260,7 @@ def generate_launch_description():
                 'use_sim_time': 'true',
                 'modelfile': xml_file,
                 'verbose': 'true',
+                'unpause': 'true',
                 'ns': '',
                 'mujoco_plugin_config': ros2_controllers_path,
             }.items()

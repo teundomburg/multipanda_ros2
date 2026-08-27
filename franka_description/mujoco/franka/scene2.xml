@@ -32,22 +32,22 @@
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
 
-    <!-- Bottom cube: edge length 0.06 -->
-    <body name="red_cube" pos="-0.5 0.0 0.03">
+    <!-- Red cube is separated along +y, making red_cube leftOf green_cube -->
+    <body name="red_cube" pos="-0.5 0.30 0.03">
       <freejoint/>
       <geom type="box" size="0.03 0.03 0.03" material="red_box"
             mass="0.5" friction="1 0.005 0.0001"/>
     </body>
 
-    <!-- Middle cube: edge length 0.04 -->
-    <body name="green_cube" pos="-0.5 0.0 0.08">
+    <!-- Green cube starts on the floor. -->
+    <body name="green_cube" pos="-0.5 0.0 0.02">
       <freejoint/>
       <geom type="box" size="0.02 0.02 0.02" material="green_box"
             mass="0.3" friction="1 0.005 0.0001"/>
     </body>
 
-    <!-- Top cube: edge length 0.02 -->
-    <body name="blue_cube" pos="-0.5 0.0 0.11">
+    <!-- Blue cube starts beside and below the green cube. -->
+    <body name="blue_cube" pos="-0.5 -0.10 0.01">
       <freejoint/>
       <geom type="box" size="0.01 0.01 0.01" material="blue_box"
             mass="0.1" friction="1 0.005 0.0001"/>
