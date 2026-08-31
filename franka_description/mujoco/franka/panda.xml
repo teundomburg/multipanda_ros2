@@ -1,8 +1,11 @@
 <mujoco model="panda">
   <compiler angle="radian" meshdir="assets"/>
 
-  <option timestep="0.001" iterations="50" tolerance="1e-9" solver="Newton" jacobian="dense" cone="pyramidal"/>
-
+  <!-- <option timestep="0.001" iterations="50" tolerance="1e-9" solver="Newton" jacobian="dense" cone="pyramidal"/> -->
+  <option timestep="0.001" iterations="50" tolerance="1e-9" solver="Newton" jacobian="dense" cone="elliptic" impratio="10" noslip_iterations="1">
+    <flag multiccd="enable"/>
+  </option>
+  
   <default>
     <default class="panda">
       <material specular="0.5" shininess="0.25"/>
@@ -19,19 +22,19 @@
       <default class="collision">
         <geom type="mesh" group="3"/>
         <default class="fingertip_pad_collision_1">
-          <geom type="box" size="0.0085 0.004 0.0085" pos="0 0.0055 0.0445"/>
+          <geom type="box" size="0.0085 0.004 0.0085" friction="10.0 0.1 0.001" condim="6" solref="0.004" solimp="0.95 0.99" pos="0 0.0055 0.0445"/>
         </default>
         <default class="fingertip_pad_collision_2">
-          <geom type="box" size="0.003 0.002 0.003" pos="0.0055 0.002 0.05"/>
+          <geom type="box" size="0.003 0.002 0.003" friction="10.0 0.1 0.001" condim="6" solref="0.004" solimp="0.95 0.99" pos="0.0055 0.002 0.05"/>
         </default>
         <default class="fingertip_pad_collision_3">
-          <geom type="box" size="0.003 0.002 0.003" pos="-0.0055 0.002 0.05"/>
+          <geom type="box" size="0.003 0.002 0.003" friction="10.0 0.1 0.001" condim="6" solref="0.004" solimp="0.95 0.99" pos="-0.0055 0.002 0.05"/>
         </default>
         <default class="fingertip_pad_collision_4">
-          <geom type="box" size="0.003 0.002 0.0035" pos="0.0055 0.002 0.0395"/>
+          <geom type="box" size="0.003 0.002 0.0035" friction="10.0 0.1 0.001" condim="6" solref="0.004" solimp="0.95 0.99" pos="0.0055 0.002 0.0395"/>
         </default>
         <default class="fingertip_pad_collision_5">
-          <geom type="box" size="0.003 0.002 0.0035" pos="-0.0055 0.002 0.0395"/>
+          <geom type="box" size="0.003 0.002 0.0035" friction="10.0 0.1 0.001" condim="6" solref="0.004" solimp="0.95 0.99" pos="-0.0055 0.002 0.0395"/>
         </default>
       </default>
     </default>
@@ -217,6 +220,7 @@
                     <geom mesh="link7_c" class="collision"/>
                     <body name="panda_link8" pos="0 0 0.107" gravcomp="1">
                       <site name="panda_flange_site" pos="0 0.0 0.0" size=".01 .01 .01" type="ellipsoid" rgba=".8 .2 .1 0"/>
+
                       <body name="panda_hand" quat="0.9238795 0 0 -0.3826834" gravcomp="1">
                         <inertial mass="0.73" pos="-0.01 0 0.03"
                             diaginertia="0.001 0.0025 0.0017"/>
@@ -256,6 +260,22 @@
                           <geom class="fingertip_pad_collision_4"/>
                           <geom class="fingertip_pad_collision_5"/>
                         </body>
+                        <!-- Wrist-mounted D435i camera attached to panda_hand -->
+                        <!-- <body name="wrist_camera" pos="0.05 0 0.04" quat="0.701 -0.092 -0.092 0.701" childclass="wrist_d435i">
+                          <geom mesh="d435i_0" material="wrist_d435i_IR_Lens" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_1" material="wrist_d435i_IR_Emitter_Lens" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_2" material="wrist_d435i_IR_Rim" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_3" material="wrist_d435i_IR_Lens" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_4" material="wrist_d435i_Cameras_Gray" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_5" material="wrist_d435i_Black_Acrylic" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_6" material="wrist_d435i_Black_Acrylic" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_7" material="wrist_d435i_RGB_Pupil" class="wrist_d435i_visual"/>
+                          <geom mesh="d435i_8" material="wrist_d435i_Metal_Casing" class="wrist_d435i_visual" mass="0.072"/>
+                          <site name="wrist_d435i_optical_frame" pos="0 0 0" quat="0 1 0 0"/>
+                          <camera name="wrist_d435i" pos="0 0 0" quat="0 1 0 0" fovy="69.4" resolution="640 480"/>
+                          <site name="wrist_d435i_rgb_optical_frame" pos="-0.0325 0 0" quat="0 1 0 0"/>
+                          <site name="wrist_d435i_link" pos="0 0 0"/>
+                        </body> -->
                       </body>
                     </body>
                   </body>

@@ -1,5 +1,9 @@
 # Changelog
 
+## Added 31.08.2026
+* Added mass and inertia information to the Panda robot in `franka_description`. These are required for dynamics-based nominal controllers. 
+* Changed MuJoCo simulation options to prevent contact slipping for grasping objects (most important additions: sliding friction, elliptic cone, and enable multiccd).
+
 ## Added 04.02.26
 * Added tools/ directory for one-click installation and start-up scripts utilizing docker.
 * Updated the installation instructions, especially one-click setup.
