@@ -1,0 +1,35 @@
+# This fill is obtained from: https://github.com/frankarobotics/franka_ros/blob/develop/franka_description/robots/common/inertial.yaml
+# This file does not contain official inertial properties
+# of panda robot. The values are from the identification
+# results published in: Identification of the Franka Robotics
+# PandaRobot With Retrieval of Feasible Parameters Using
+# Penalty-Based Optimization
+# by: Claudio Gaz, Marco Cognetti, Alexander Oliva,
+# Paolo Robuffo Giordano, Alessandro de Luca
+
+panda_hand:
+  origin:
+    xyz: -0.01 0 0.03
+    rpy: 0 0 0
+  mass: 0.73
+  inertia:
+    xx: 0.001
+    yy: 0.0025
+    zz: 0.0017
+    xy: 0
+    xz: 0
+    yz: 0
+
+panda_leftfinger: &finger
+  origin:
+    xyz: 0 0 0
+    rpy: 0 0 0
+  mass: 0.015
+  inertia:
+    xx: 2.3749999999999997e-06
+    yy: 2.3749999999999997e-06
+    zz: 7.5e-07
+    xy: 0
+    xz: 0
+    yz: 0
+panda_rightfinger: *finger

@@ -1,8 +1,31 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+
+  <!-- ============================================================== -->
+  <!-- Macro to add an <inertial> tag based on yaml-load properties   -->
+  <!--                                                                -->
+  <!-- name:     Name of the robot link (without prefix)              -->
+  <!-- inertial: Dictionary of inertia properties (see inertial.yaml) -->
+  <!-- ============================================================== -->
+  <xacro:macro name="panda-inertials" params="name inertials:=^">
+      <xacro:unless value="${name in inertials}">${xacro.warning('No inertia properties defined for: ' + name)}</xacro:unless>
+      <xacro:if value="${name in inertials}">
+        <!-- Access inertia properties of link 'name' -->
+        <xacro:property name="link_inertials" value="${inertials[name]}" lazy_eval="false" />
+        <inertial>
+          <origin rpy="${link_inertials.origin.rpy}" xyz="${link_inertials.origin.xyz}" />
+          <mass value="${link_inertials.mass}" />
+          <xacro:if value="${'inertia' in link_inertials}">
+            <xacro:property name="I" value="${link_inertials.inertia}" />
+            <inertia ixx="${I.xx}" ixy="${I.xy}" ixz="${I.xz}" iyy="${I.yy}" iyz="${I.yz}" izz="${I.zz}" />
+          </xacro:if>
+        </inertial>
+      </xacro:if>
+  </xacro:macro>
+
   <!-- safety_distance: Minimum safety distance in [m] by which the collision volumes are expanded and which is enforced during robot motions -->
   <!-- arm_id: Namespace of the panda arm. Serves to differentiate between arms in case of multiple instances. -->
-  <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' safety_distance:=0">
+  <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' safety_distance:=0 inertials=^">
     <xacro:unless value="${not connected_to}">
       <joint name="${arm_id}_joint_${connected_to}" type="fixed">
         <parent link="${connected_to}"/>
@@ -34,6 +57,7 @@
           <sphere radius="${0.06+safety_distance}" />
         </geometry>
       </collision>
+      <xacro:panda-inertials name="${arm_id}_link0" />
     </link>
     <link name="${arm_id}_link1">
       <visual>
@@ -59,6 +83,7 @@
           <sphere radius="${0.06+safety_distance}" />
         </geometry>
       </collision>
+      <xacro:panda-inertials name="${arm_id}_link1" />
     </link>
     <joint name="${arm_id}_joint1" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
@@ -92,6 +117,7 @@
           <sphere radius="${0.06+safety_distance}" />
         </geometry>
       </collision>
+      <xacro:panda-inertials name="${arm_id}_link2" />
     </link>
     <joint name="${arm_id}_joint2" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-1.7628" soft_upper_limit="1.7628"/>
@@ -125,6 +151,7 @@
           <sphere radius="${0.06+safety_distance}" />
         </geometry>
       </collision>
+      <xacro:panda-inertials name="${arm_id}_link3" />
     </link>
     <joint name="${arm_id}_joint3" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
@@ -158,6 +185,7 @@
           <sphere radius="${0.06+safety_distance}" />
         </geometry>
       </collision>
+      <xacro:panda-inertials name="${arm_id}_link4" />
     </link>
     <joint name="${arm_id}_joint4" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-3.0718" soft_upper_limit="-0.0698"/>
@@ -209,7 +237,7 @@
           <sphere radius="${0.025+safety_distance}" />
         </geometry>
       </collision>
-
+      <xacro:panda-inertials name="${arm_id}_link5" />
     </link>
     <joint name="${arm_id}_joint5" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
@@ -243,6 +271,7 @@
           <sphere radius="${0.05+safety_distance}" />
         </geometry>
       </collision>
+      <xacro:panda-inertials name="${arm_id}_link6" />
     </link>
     <joint name="${arm_id}_joint6" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-0.0175" soft_upper_limit="3.7525"/>
@@ -276,6 +305,7 @@
           <sphere radius="${0.04+safety_distance}"  />
         </geometry>
       </collision>
+      <xacro:panda-inertials name="${arm_id}_link7" />
     </link>
     <joint name="${arm_id}_joint7" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
